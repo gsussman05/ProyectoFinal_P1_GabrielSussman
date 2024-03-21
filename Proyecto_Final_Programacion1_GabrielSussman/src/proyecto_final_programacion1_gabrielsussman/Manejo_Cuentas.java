@@ -33,6 +33,7 @@ public class Manejo_Cuentas {
         }
         return false;
     }
+   
 
     public Cuentas verificarValidez(String name, String pass) {
         for (int i = 0; i < this.cont_cuentas; i++) {
