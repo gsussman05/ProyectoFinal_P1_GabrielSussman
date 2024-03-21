@@ -5,6 +5,8 @@
 package proyecto_final_programacion1_gabrielsussman;
 
 import java.util.Scanner;
+import java.util.Random;
+import java.util.ArrayList;
 
 /**
  *
@@ -21,6 +23,7 @@ public class Proyecto_Final_Programacion1_GabrielSussman {
         System.out.println("BIENVENIDO A MI PROYECTO FINAL DE PROGRAMACION");
         System.out.println("1. SIMULACION DE BANCA EN LINEA");
         System.out.println("2. JUGUEMOS EQUIS-CERO");
+        System.out.println("3. VISITA AL VETERINARIO");
         System.out.println("QUE DESEAS HACER EL DIA DE HOY: ");
         int op_menu = sc.nextInt();
         switch (op_menu) {
@@ -44,8 +47,46 @@ public class Proyecto_Final_Programacion1_GabrielSussman {
 
                             System.out.println("Introduce una contraseña (minimo 8 caractéres, al menos una mayúscula, dos números y un caracter especial):");
                             String password = sc.next();
+                            boolean esValido = false;
 
-                            if (password.length() < 8 || !password.matches("([a-z])([A-Z])([0-9])([!#$^*])")) {
+                            /* -------------------------------------------------------------  */
+ /* --               Validacion de Password                    --  */
+ /* -------------------------------------------------------------  */
+                            String digitos = "0123456789";
+                            String especiales = "!#$^*@.-+";
+
+                            int conteoNum = 0;
+                            int conteoEspeciales = 0;
+                            int conteoMay = 0;
+                            boolean esNum = false;
+                            boolean esEsp = false;
+
+                            for (int i = 0; i < password.length(); i++) {
+                                for (int j = 0; j < digitos.length(); j++) {
+                                    if (password.charAt(i) == digitos.charAt(j)) {
+                                        conteoNum++;
+                                        esNum = true;
+                                    }
+                                }
+                                for (int j = 0; j < especiales.length(); j++) {
+                                    if (password.charAt(i) == especiales.charAt(j)) {
+                                        conteoEspeciales++;
+                                        esEsp = true;
+                                    }
+                                }
+
+                                if (password.charAt(i) == password.toUpperCase().charAt(i) && !esNum && !esEsp) {
+                                    conteoMay++;
+                                }
+
+                                esNum = false;
+                                esEsp = false;
+                            }
+
+                            esValido = (password.length() >= 8 && conteoMay >= 1 && conteoEspeciales >= 1 && conteoNum >= 2);
+
+                            /* -------------------------------------------------------------  */
+                            if (!esValido) {
                                 System.out.println("RECUERDA: La contraseña debe cumplir con los requisitos.");
                                 break;
                             }
@@ -71,7 +112,7 @@ public class Proyecto_Final_Programacion1_GabrielSussman {
                                 System.out.println("Bienvenido " + tuNombre);
 
                                 while (true) {
-                                      
+
                                     System.out.println("1. HACER UN DEPOSITO");
                                     System.out.println("2. RETIRO DE DINERO");
                                     System.out.println("3. SALIR/LOGOUT");
@@ -128,12 +169,69 @@ public class Proyecto_Final_Programacion1_GabrielSussman {
 
                 }
             case 2:
-                System.out.println("AHHH, CON QUE QUIERES JUGAR? JUGUEMOS EQUIS-CERO");
-                TicTacToe xo=new TicTacToe();
+                System.out.println("AHHH, CON QUE QUIERES JUGAR? JUGUEMOS EQUIS-CERO!");
+                TicTacToe xo = new TicTacToe();
                 xo.setVisible(true);
+                break;
+            case 3:
+                System.out.println("BIENVENIDO A LA VISITA AL VETERINARIO");
+
+                ArrayList<Mascota> mascotas = new ArrayList<>();
+
+                System.out.println("Presione 1 para atender a su mascota");
+                int numMascotas = sc.nextInt();
+
+                for (int i = 0; i < numMascotas; i++) {
+                    sc.nextLine();
+                    System.out.println("Ingrese el nombre de la mascota:");
+                    String nombre = sc.nextLine();
+                    System.out.println("Ingrese la raza de la mascota:");
+                    String raza = sc.nextLine();
+                    System.out.println("Ingrese la razón de la visita:");
+                    String razonVisita = sc.nextLine();
+                    System.out.println("Ingrese el peso de la mascota:");
+                    double peso = sc.nextDouble();
+
+                    mascotas.add(new Mascota(nombre, raza, razonVisita, peso));
+                }
+
+                System.out.println("Desea agregar otra mascota? (si/no)");
+                String respuesta = sc.next();
+
+                while (respuesta.equalsIgnoreCase("si")) {
+
+                    sc.nextLine();
+                    System.out.println("Ingrese el nombre de la mascota:");
+                    String nombre = sc.nextLine();
+                    System.out.println("Ingrese la raza de la mascota:");
+                    String raza = sc.nextLine();
+                    System.out.println("Ingrese la razón de la visita:");
+                    String razonVisita = sc.nextLine();
+                    System.out.println("Ingrese el peso de la mascota:");
+                    double peso = sc.nextDouble();
+
+                    mascotas.add(new Mascota(nombre, raza, razonVisita, peso));
+
+                    System.out.println("Desea agregar otra mascota? (si/no)");
+                    respuesta = sc.next();
+
+                }
+
+                Random rand = new Random();
+
+                System.out.println("ORDEN DE ATENCION");
+
+                for (int i = 0; i < mascotas.size(); i++) {
+
+                    int index = rand.nextInt(mascotas.size());
+
+                    System.out.println((i + 1) + ". " + mascotas.get(index).toString());
+
+                    mascotas.remove(index);
+
+                }
 
         }
-        
 
     }
 
